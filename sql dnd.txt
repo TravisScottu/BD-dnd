@@ -1,0 +1,281 @@
+CREATE DATABASE `DnD`;
+
+
+
+USE `DnD`; 
+
+
+// CRIAÇAO DAS TABELAS
+
+CREATE TABLE Personagem(
+    id_personagem INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    raca VARCHAR(50),
+    classe VARCHAR(50),
+    nivel INT(2),
+    vida INT,
+    mana INT,
+    forca INT(2),
+    destreza INT(2),
+    constituicao INT(2),
+    inteligencia INT(2),
+    sabedoria INT(2),
+    carisma INT(2),
+FOREIGN KEY (raca) REFERENCES Raca (nome_raca), 
+FOREIGN KEY (classe) REFERENCES Classe (nome_classe)
+
+);
+
+
+CREATE TABLE Raca(
+    id_raca INT PRIMARY KEY AUTO_INCREMENT,
+    nome_raca VARCHAR(30),
+    descricao VARCHAR(100)
+);
+
+
+CREATE TABLE Classe(
+    id_classe INT PRIMARY KEY AUTO_INCREMENT,
+    nome_classe VARCHAR(30),
+    descricao VARCHAR(100),
+    vida_por_nivel INT
+);
+
+
+CREATE TABLE Habilidade(
+    id_habilidade INT PRIMARY KEY AUTO_INCREMENT,
+    nome_habilidade VARCHAR(50),
+    descricao VARCHAR(100)
+   
+  
+);
+
+
+CREATE TABLE Item(
+    id_item INT PRIMARY KEY AUTO_INCREMENT,
+    nome_item VARCHAR(100),
+    tipo VARCHAR(50),
+    descricao VARCHAR(100),
+    dano INT,
+    bonus VARCHAR(50)
+);
+
+
+CREATE TABLE Feitico(
+    id_feitico INT PRIMARY KEY AUTO_INCREMENT,
+    nome_feitico VARCHAR(30),
+    descricao VARCHAR(100),
+    nivel_feitico INT(1),
+    dano VARCHAR(5)
+    
+);
+
+
+CREATE TABLE Inventario(
+    id_inventario INT PRIMARY KEY AUTO_INCREMENT,
+    quantidade INT,
+    id_item INT,
+    id_personagem INT,
+FOREIGN KEY (id_item) REFERENCES Item (id_item)
+FOREIGN KEY (id_personagem) REFERENCES Personagem(id_personagem)
+ 
+);
+
+CREATE TABLE Combate (
+    id_acao INT PRIMARY KEY AUTO_INCREMENT,
+    id_personagem INT,
+    dano INT,
+    turno TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_personagem) REFERENCES Personagem(id_personagem)
+);
+
+INSERT INTO Raca (id_raca,nome_raca,descricao) VALUES (1, 'HUMANO', 'UM HOMEM ADULTO NORMAL');
+INSERT INTO Raca (id_raca,nome_raca,descricao) VALUES (2, 'ANAO', 'SAO CRIATURAS MENORES MAS MUITO FORTES E RESISTENTES');
+
+INSERT INTO Classe (id_classe, nome_classe, descricao, vida_por_nivel) VALUES (1, 'BERSERK', 'UM BRAVO E LOUCO BERSERK', 9);
+INSERT INTO Classe (id_classe, nome_classe, descricao, vida_por_nivel) VALUES (2, 'MAGO', 'O CLASSICO CONJURADOR DE FEITIÇOS QUE PODE RESOLVER QUASE TODO PROBLEMA', 4);
+INSERT INTO Classe (id_classe, nome_classe, descricao, vida_por_nivel) VALUES (3, 'GUERREIRO', 'O ICONICO GUERREIRO QUE É MUITO VERSATIL COM AS ARMAS QUE PODE USAR', 7);
+
+
+INSERT INTO Habilidade (id_habilidade,nome_habilidade,descricao) VALUES (5, 'RAGE', 'JOGUE TODA SUA RAIVA PARA FORA EM ENTRE EM UM ESTADO BERSERK POR 3 TURNOS OU ATE NAO SOFRER OU CAUSAR DANO POR UM TURNO');  
+INSERT INTO Habilidade (id_habilidade,nome_habilidade,descricao) VALUES (9, 'FALAR COM ANIMAIS', 'GANHE A HABILIDADE DE FALAR COM ANIMAIS');                                                 
+
+
+INSERT INTO Item (id_item, nome_item, tipo, descricao, dano, bonus) VALUES (9, 'Espada Longa', 'ESPADA','ESPADA LONGA E AFIADA',7, '1 DE FORCA');
+INSERT INTO Item (id_item, nome_item, tipo, descricao, dano, bonus) VALUES (2, 'MARTELO DE GUERRA', ' MARTELO','GRANDE E PESADO MARTELO',6, '2 DE FORCA');
+INSERT INTO Item (id_item, nome_item, tipo, descricao, dano, bonus) VALUES (6, 'CAJADO DO REI', 'CAJADO','UM CAJADO QUE NO PASSADO JA FOI USADO POR UM REI',3, '4 DE INT');                                                           
+
+INSERT INTO Feitico (id_feitico, nome_feitico, descricao, nivel_feitico, dano) VALUES (1, 'MAGIC MISSILES', 'LANCA 3 MISSEIS DE FORCA QUE NUNCA ERRAM O ALVO', 1, '1d4+1');
+INSERT INTO Feitico (id_feitico, nome_feitico, descricao, nivel_feitico, dano) VALUES (4, 'HEALING WORD', 'CRIA UMA CRIATURA QUE VOCE CONSEGUE VER', 1, '1d4+WIS/CHA');
+INSERT INTO Feitico (id_feitico, nome_feitico, descricao, nivel_feitico, dano) VALUES (15, 'HOLD PERSON', 'SEGURA UM ENEMIGO HUMANOID NO LUGAR', 2, '0');
+INSERT INTO Feitico (id_feitico, nome_feitico, descricao, nivel_feitico, dano) VALUES (32, 'FIREBALL', 'DISPARA UMA GRANDE BOLA DE FOGO QUE EXPLODE AO CONTATO', 3, '8d6');
+
+
+INSERT INTO Personagem (id_personagem, nome, raca, classe, nivel, vida, mana, forca, destreza, constituicao, inteligencia, sabedoria, carisma) VALUES (3, 'Aragorn', 'Humano', ' BERSERK', 5, 45, 15, 18, 13, 15, 12, 13, 14);
+INSERT INTO Personagem (id_personagem, nome, raca, classe, nivel, vida, mana, forca, destreza, constituicao, inteligencia, sabedoria, carisma) VALUES (7, 'Merlin', 'Humano', 'mago', 2, 20, 30, 8, 14, 10, 16, 12, 10);
+INSERT INTO Personagem (id_personagem, nome, raca, classe, nivel, vida, mana, forca, destreza, constituicao, inteligencia, sabedoria, carisma) VALUES (1, 'Thorin', 'Anão', 'Guerreiro', 3, 35, 10, 16, 12, 14, 10, 12, 8);
+
+INSERT INTO Combate (id_acao, id_personagem, dano) VALUES (2, 1, 6);
+
+
+INSERT INTO Inventario (id_inventario, quantidade) VALUES (1, 5);
+
+select id_personagem, nivel from personagem;
+
+SELECT * FROM Habilidade 
+
+SELECT * FROM Item;
+
+SELECT * FROM Feitico 
+
+SELECT * FROM Inventario;
+
+SELECT * FROM Raca;
+
+SELECT * FROM Classe;
+
+// VIEWS
+
+CREATE VIEW VWRAGE AS 
+SELECT * FROM Habilidade
+WHERE nome_habilidade = 'RAGE'
+
+CREATE VIEW VWPERSONAGEM_CLASSE AS
+SELECT 
+    P.nome AS Nome_Personagem,
+    P.nivel AS Nivel,
+    C.nome_classe AS Classe,
+    C.descricao AS Descricao_Classe
+FROM 
+    Personagem P
+JOIN 
+    Classe C ON P.classe = C.id_classe;
+
+
+CREATE VIEW VWINVENTARIO AS
+SELECT 
+    P.nome AS Nome_Personagem,
+    I.nome_item AS Item,
+    INV.quantidade AS Quantidade,
+    I.descricao AS Descricao_Item,
+    I.dano AS Dano,
+    I.bonus AS Bonus
+FROM 
+    Inventario INV
+JOIN 
+    Personagem P ON INV.id_personagem = P.id_personagem
+JOIN 
+    Item I ON INV.id_item = I.id_item;
+
+CREATE VIEW VWFEITICO1 AS
+SELECT * FROM Feitico
+WHERE nivel_feitico = 1;
+
+CREATE VIEW VWnivel AS
+SELECT nivel FROM Persongem
+WHERE nivel_feitico = 1;
+
+// CRIAÇAO DE INDICES PRA MELHORAR A PERFORMANCE
+
+CREATE INDEX idx_personagem_nome ON Personagem (nome);
+
+CREATE INDEX idx_personagem_raca ON Personagem (raca);
+
+CREATE INDEX idx_personagem_nivel ON Personagem (nivel);
+
+CREATE INDEX idx_habilidade_nome ON Habilidade (nome_habilidade);
+
+CREATE INDEX idx_feitico_nome ON Feitico (nome_feitico);
+
+CREATE INDEX idx_feitico_nivel ON Feitico (nivel_feitico);
+
+
+
+// Acessos e Permissões
+
+CREATE USER 'adm'@'localhost' IDENTIFIED BY 'senha_adm';
+GRANT ALL PRIVILEGES ON DnD.* TO 'adm_dnd'@'localhost';
+
+CREATE USER 'DM'@'localhost' IDENTIFIED BY 'senha_DM';
+GRANT SELECT, INSERT, UPDATE ON DnD.* TO 'DM'@'localhost';
+
+CREATE USER 'PLAYER'@'localhost' IDENTIFIED BY 'senha_PLAYER';
+GRANT SELECT ON DnD.* TO 'PLAYER'@'localhost';
+
+FLUSH PRIVILEGES;
+
+
+// PROCESSO PRA CURAR O PERSONAGEM
+
+DELIMITER //
+
+CREATE PROCEDURE CurarPersonagem(IN p_id INT, IN p_vida INT)
+BEGIN
+    UPDATE Personagem
+    SET vida = vida + p_vida
+    WHERE id_personagem = p_id;
+END //
+
+DELIMITER ;
+
+CALL CurarPersonagem(3, 10);
+
+// Registrar automaticamente a última modificação de um personagem
+
+ALTER TABLE Personagem ADD COLUMN LastUpdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+DELIMITER //
+
+CREATE TRIGGER AtualizaPersonagem
+BEFORE UPDATE ON Personagem
+FOR EACH ROW
+BEGIN
+    SET NEW.LastUpdate = CURRENT_TIMESTAMP;
+END //intID_A,
+
+DELIMITER ;
+
+
+select id_personagem, nivel from personagem;
+
+UPDATE Personagem
+SET nivel = 3
+where id_personagem = 7;
+
+DELIMITER //
+
+CREATE TRIGGER TriggerDano
+AFTER INSERT ON Combate
+FOR EACH ROW
+BEGIN
+    UPDATE Personagem
+    SET vida = vida - NEW.dano
+    WHERE id_personagem = NEW.id_personagem;
+END //
+
+DELIMITER ;
+
+SELECT * FROM PERSONAGEM;
+
+INSERT Combate (id_personagem, dano) VALUES (7, 8);
+
+SELECT * FROM PERSONAGEM;
+
+// BACKUP E RESTAURAÇAO
+
+mysqldump -u root -p `DnD` > backupdnd.sql
+
+mysql -u root -p `DnD` < backupdnd.sql
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
